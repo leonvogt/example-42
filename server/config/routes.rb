@@ -4,6 +4,10 @@ Rails.application.routes.draw do
 
   get "home" => "home#show"
 
+  scope :articles do
+    get "env_switch" => "articles#env_switch"
+  end
+
   namespace :api, defaults: {format: :json} do
     namespace :mobile do
       namespace :v1 do
