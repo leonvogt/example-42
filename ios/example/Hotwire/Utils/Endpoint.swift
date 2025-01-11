@@ -4,6 +4,11 @@ class Endpoint {
     static let instance = Endpoint()
 
     private var baseURL: URL {
+        let baseURL = UserDefaultsAccess.getBaseURL()
+        
+        if !baseURL.isEmpty {
+            return URL(string: baseURL)!
+        }
         switch Environment.current {
         case .development:
             return URL(string: "http://192.168.1.245:3000")!
