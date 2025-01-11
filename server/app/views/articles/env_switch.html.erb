@@ -1,0 +1,8 @@
+<%= content_for :title, "ENV Switch" %>
+
+<div data-controller="native--base-url">
+  <div class="d-grid gap-2">
+    <button data-action="click->native--base-url#updateBaseURL" data-native--base-url-url-param="http://192.168.1.42:3000" class="btn btn-primary">Local</button>
+    <button data-action="click->native--base-url#updateBaseURL" data-native--base-url-url-param="https://myapp.com" class="btn btn-primary">Production</button>
+  </div>
+</div>
