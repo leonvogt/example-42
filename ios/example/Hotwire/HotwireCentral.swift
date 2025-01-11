@@ -26,6 +26,11 @@ class HotwireCentral {
             .server(Endpoint.instance.pathConfiguration)
         ])
         
+        // Bridge Components
+        Hotwire.registerBridgeComponents([
+            BaseURLComponent.self
+        ])
+        
         // Generic config
         // Hotwire.config.debugLoggingEnabled = true
         Hotwire.config.backButtonDisplayMode = .minimal
@@ -57,6 +62,19 @@ class HotwireCentral {
     
         navigator.route(Endpoint.instance.start)
         Appearance.configure()
+    }
+    
+    func resetNavigator() {
+        Hotwire.loadPathConfiguration(from: [
+            .file(Bundle.main.url(forResource: "path-configuration", withExtension: "json")!),
+            .server(Endpoint.instance.pathConfiguration)
+        ])
+        self.navigator = Navigator()
+        if let window = window {
+            window.rootViewController = self.navigator.rootViewController
+        }
+        
+        navigator.route(Endpoint.instance.start)
     }
 }
 
