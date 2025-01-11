@@ -1,0 +1,22 @@
+{
+  "rules": [
+    {
+      "patterns": [
+        ".*"
+      ],
+      "properties": {
+      }
+    },
+    {
+      "patterns": [
+        "^$",
+        "^/$",
+        "^/home$"
+      ],
+      "properties": {
+        "presentation": "replace_root",
+        "animated": false
+      }
+    }
+  ]
+}
