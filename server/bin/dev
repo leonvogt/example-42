@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if ! command -v overmind &> /dev/null
+then
+  echo "Installing overmind..."
+  brew install tmux
+  brew install overmind
+fi
+
+overmind start -f Procfile.dev

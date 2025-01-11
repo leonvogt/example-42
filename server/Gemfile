@@ -1,0 +1,32 @@
+source "https://rubygems.org"
+
+# Basic Rails gems
+gem "rails"
+gem "turbo-rails"
+gem "bootsnap", require: false
+gem "solid_cache"
+gem "solid_queue"
+gem "solid_cable"
+
+# Webserver
+gem "puma", ">= 5.0"
+
+# Assets
+gem "propshaft"
+gem "vite_rails"
+
+# Database
+gem "pg", "~> 1.1"
+
+# Deployment
+gem "kamal", require: false
+gem "thruster", require: false
+
+group :development, :test do
+  gem "debug", require: "debug/prelude"
+  gem "brakeman", require: false
+end
+
+group :development do
+  gem "web-console"
+end

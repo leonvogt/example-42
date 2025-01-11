@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || t("app_name") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1 <%= "shrink-to-fit=no, maximum-scale=1.0, user-scalable=0" if mobile_app? %>">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= vite_client_tag %>
+    <%= vite_stylesheet_tag "application.scss", "data-turbo-track": "reload" %>
+    <%= vite_javascript_tag "application", "data-turbo-track": "reload" %>
+
+    <%= yield :head %>
+  </head>
+
+  <body class="<%= mobile_app? ? "mobile-app" : "desktop" %>">
+    <div class="container mt-2">
+      <%= yield %>
+    </div>
+  </body>
+</html>
