@@ -25,6 +25,10 @@ class Endpoint {
         return baseURL.appendingPathComponent("/home")
     }
     
+    var postsNew: URL {
+        return baseURL.appendingPathComponent("/posts/new")
+    }
+    
     var pathConfiguration: URL {
         return baseURL.appendingPathComponent("/api/mobile/v1/ios/path_configuration.json")
     }

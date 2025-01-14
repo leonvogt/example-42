@@ -30,6 +30,14 @@ module Api::Mobile::V1::Ios
               animated: false
             }
           },
+          { # Rules for pages that should open in a native View Controller / Swift UI
+            patterns: [
+              "^/posts$"
+            ],
+            properties: {
+              view_controller: "conversation",
+            }
+          },
           { # Rules for pages that should be displayed in the modal (full)
             patterns: [],
             properties: {

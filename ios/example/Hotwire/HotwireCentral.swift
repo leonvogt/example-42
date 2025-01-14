@@ -1,5 +1,6 @@
 import WebKit
 import HotwireNative
+import SwiftUI
 
 class HotwireCentral {
     static let instance = HotwireCentral()
@@ -10,7 +11,7 @@ class HotwireCentral {
     
     private init() {
         configureHotwire()
-        self.navigator = Navigator()
+        self.navigator = Navigator(delegate: self)
     }
     
     private func configureHotwire() {
@@ -75,6 +76,19 @@ class HotwireCentral {
         }
         
         navigator.route(Endpoint.instance.start)
+    }
+}
+
+extension HotwireCentral: NavigatorDelegate {
+    func handle(proposal: VisitProposal) -> ProposalResult {
+        switch proposal.viewController {
+        case ConversationView.VIEW_NAME:
+            let view = ConversationView(proposal: proposal)
+            let viewController = UIHostingController(rootView: view)
+            return .acceptCustom(viewController)
+        default:
+            return .accept
+        }
     }
 }
 
