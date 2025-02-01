@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   scope :articles do
     get "env_switch" => "articles#env_switch"
+    get "camera_access" => "articles#camera_access"
   end
 
   namespace :api, defaults: {format: :json} do
