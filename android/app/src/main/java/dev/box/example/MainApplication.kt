@@ -5,6 +5,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModelProvider
 import dev.box.example.hotwire.NavigationDecisionHandler
 import dev.box.example.hotwire.bridgeComponents.BaseURLComponent
+import dev.box.example.hotwire.bridgeComponents.PermissionsComponent
 import dev.box.example.hotwire.fragment.WebFragment
 import dev.box.example.hotwire.fragment.WebModalFragment
 import dev.box.example.hotwire.fragment.WebBottomSheetFragment
@@ -53,7 +54,8 @@ class MainApplication : Application() {
 
         // Register bridge components
         Hotwire.registerBridgeComponents(
-            BridgeComponentFactory("base-url", ::BaseURLComponent)
+            BridgeComponentFactory("base-url", ::BaseURLComponent),
+            BridgeComponentFactory("permissions", ::PermissionsComponent)
         )
 
         // Register route decision handlers
