@@ -11,6 +11,7 @@ class HotwireCentral {
     private init() {
         configureHotwire()
         self.navigator = Navigator()
+        self.navigator.webkitUIDelegate = CustomWKUIController()
     }
     
     private func configureHotwire() {
@@ -28,7 +29,8 @@ class HotwireCentral {
         
         // Bridge Components
         Hotwire.registerBridgeComponents([
-            BaseURLComponent.self
+            BaseURLComponent.self,
+            PermissionsComponent.self
         ])
         
         // Generic config
