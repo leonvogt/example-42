@@ -1,0 +1,8 @@
+<%= content_for :title, "Test 3" %>
+
+<h3>Test 3</h3>
+<div class="list-group mt-4">
+  <%= link_to "Pop until Test 1", test_4_path(pop_until: "test_1"), class: "list-group-item list-group-item-action p-3", data: { turbo_action: :replace } %>
+  <%= link_to "Pop until Test 2", test_4_path(pop_until: "test_2"), class: "list-group-item list-group-item-action p-3", data: { turbo_action: :replace } %>
+  <%= link_to "Pop until Camera Access", test_4_path(pop_until: "camera_access"), class: "list-group-item list-group-item-action p-3", data: { turbo_action: :replace } %>
+</div>

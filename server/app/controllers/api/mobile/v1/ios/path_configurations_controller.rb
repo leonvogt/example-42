@@ -51,6 +51,14 @@ module Api::Mobile::V1::Ios
               modal_style: "medium"
             }
           },
+          {
+            patterns: [
+              "^/pop_until"
+            ],
+            properties: {
+              custom_presentation: "pop_until",
+            }
+          },
           *common_rules
         ]
       }

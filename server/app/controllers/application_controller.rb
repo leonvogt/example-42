@@ -1,3 +1,3 @@
 class ApplicationController < ActionController::Base
-  include DetectDevice
+  include DetectDevice, MobileApp::Navigation
 end

@@ -25,6 +25,10 @@ class Endpoint {
         return baseURL.appendingPathComponent("/home")
     }
     
+    func endpointFor(relativURL: String) -> URL {
+        return baseURL.appendingPathComponent(relativURL)
+    }
+    
     var pathConfiguration: URL {
         return baseURL.appendingPathComponent("/api/mobile/v1/ios/path_configuration.json")
     }
