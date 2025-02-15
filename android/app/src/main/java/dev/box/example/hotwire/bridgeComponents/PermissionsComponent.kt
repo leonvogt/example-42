@@ -3,6 +3,7 @@ package dev.box.example.hotwire.bridgeComponents
 import android.Manifest
 import android.content.pm.PackageManager
 import android.util.Log
+import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import dev.box.example.hotwire.utils.PermissionRequester
@@ -12,6 +13,7 @@ import dev.hotwire.core.bridge.Message
 import dev.hotwire.navigation.destinations.HotwireDestination
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.util.concurrent.Executor
 
 class PermissionsComponent(
     name: String,
@@ -24,6 +26,7 @@ class PermissionsComponent(
     override fun onReceive(message: Message) {
         when (message.event) {
             "checkPermissions" -> checkPermissions(message)
+            "biometricPrompt" -> showBiometricPrompt(message)
             else -> Log.w("PermissionsComponent", "Unknown event for message: $message")
         }
     }
@@ -45,6 +48,36 @@ class PermissionsComponent(
         }
     }
 
+    private fun showBiometricPrompt(message: Message) {
+        val data = message.data<BioMetricMessageData>() ?: return
+
+        val executor: Executor = ContextCompat.getMainExecutor(fragment.requireContext())
+        val biometricPrompt = BiometricPrompt(fragment, executor, object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                super.onAuthenticationError(errorCode, errString)
+                replyTo("biometricPrompt", BiometricResultData(false))
+            }
+
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                replyTo("biometricPrompt", BiometricResultData(true))
+            }
+
+            override fun onAuthenticationFailed() {
+                super.onAuthenticationFailed()
+                replyTo("biometricPrompt", BiometricResultData(false))
+            }
+        })
+
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle(data.title)
+            .setNegativeButtonText("Cancel")
+            .build()
+
+        biometricPrompt.authenticate(promptInfo)
+    }
+
     private fun hasPermission(permission: String): Boolean {
         return ContextCompat.checkSelfPermission(
             fragment.requireContext(),
@@ -58,8 +91,18 @@ class PermissionsComponent(
     )
 
     @Serializable
+    data class BioMetricMessageData(
+        @SerialName("title") val title: String,
+    )
+
+    @Serializable
     data class PermissionResultData(
         @SerialName("granted") val granted: Boolean
+    )
+
+    @Serializable
+    data class BiometricResultData(
+        @SerialName("success") val success: Boolean
     )
 
     sealed class Permissions(val permissionString: String) {

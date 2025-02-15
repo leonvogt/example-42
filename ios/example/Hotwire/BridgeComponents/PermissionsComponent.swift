@@ -1,6 +1,7 @@
 import Foundation
 import HotwireNative
 import AVFoundation
+import LocalAuthentication
 
 final class PermissionsComponent: BridgeComponent {
     override class var name: String { "permissions" }
@@ -13,6 +14,8 @@ final class PermissionsComponent: BridgeComponent {
         switch event {
         case .checkPermissions:
             handleCheckPermissions(message: message)
+        case .biometricPrompt:
+            handleBiometricPrompt(message: message)
         }
     }
 
@@ -47,6 +50,29 @@ final class PermissionsComponent: BridgeComponent {
             reply(to: Event.checkPermissions.rawValue, with: PermissionResultData(granted: false))
         }
     }
+
+    private func handleBiometricPrompt(message: Message) {
+        guard let data: BiometricPromptData = message.data() else { return }
+        let context = LAContext()
+        var error: NSError?
+
+        // Check if biometric authentication is available
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: data.title) { success, authenticationError in
+                DispatchQueue.main.async {
+                    if success {
+                        self.reply(to: Event.biometricPrompt.rawValue, with: BiometricResultData(success: true, message: "Authentication succeeded"))
+                    } else {
+                        self.reply(to: Event.biometricPrompt.rawValue, with: BiometricResultData(success: false, message: "Authentication failed"))
+                    }
+                }
+            }
+        } else {
+            // Biometric authentication is not available
+            let errorMessage = error?.localizedDescription ?? "Biometric authentication not available"
+            reply(to: Event.biometricPrompt.rawValue, with: BiometricResultData(success: false, message: errorMessage))
+        }
+    }
 }
 
 // MARK: Events
@@ -54,6 +80,7 @@ final class PermissionsComponent: BridgeComponent {
 private extension PermissionsComponent {
     enum Event: String {
         case checkPermissions
+        case biometricPrompt
     }
 }
 
@@ -64,8 +91,17 @@ private extension PermissionsComponent {
         let permission: String
     }
     
+    struct BiometricPromptData: Decodable {
+        let title: String
+    }
+    
     struct PermissionResultData: Encodable {
         let granted: Bool
+    }
+    
+    struct BiometricResultData: Encodable {
+        let success: Bool
+        let message: String
     }
     
     enum Permissions {

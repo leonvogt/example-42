@@ -8,6 +8,23 @@ const PERMISSIONS = {
 export default class extends BridgeComponent {
   static component = "permissions"
 
+  biometricPrompt() {
+    this.send("biometricPrompt", { title: "Authenticate to continue" }, (message) => {
+      const result = message.data.success
+
+      // Dispatches a "biometricResult" event with the result
+      this.dispatch("biometricResult", { success: result })
+
+      // If an action only needs to be taken if the biometric was successful,
+      // we can directly listen for the "biometricSuccess" or "biometricFailure" events
+      if (result) {
+        this.dispatch("biometricSuccess")
+      } else {
+        this.dispatch("biometricFailure")
+      }
+    })
+  }
+
   checkPermissions({ params: { permission } }) {
     const sanitizedPermission = PERMISSIONS[permission]
     if (!sanitizedPermission) {

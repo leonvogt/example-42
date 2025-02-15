@@ -11,6 +11,7 @@ composeBom = "2024.04.01"
 core = "1.1.1"
 navigationFragments = "1.1.1"
 kotlinxSerializationJson = "1.5.0"
+biometric = "1.4.0-alpha02"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,6 +31,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 core = { group = "dev.hotwire", name = "core", version.ref = "core" }
 navigation-fragments = { group = "dev.hotwire", name = "navigation-fragments", version.ref = "navigationFragments" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

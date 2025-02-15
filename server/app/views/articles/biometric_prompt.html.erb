@@ -1,0 +1,14 @@
+<%= content_for :title, "Biometric Prompt" %>
+
+<div data-controller="native--permissions visibility-toggle"
+     data-action="native--permissions:biometricSuccess->visibility-toggle#show">
+
+  <h3>Vault:</h3>
+  <div class="d-flex justify-content-center align-items-center mt-5 d-none" data-visibility-toggle-target="elementToToggle">
+    🍪🍪🍪🍪🍪🍪🍪
+  </div>
+
+  <button class="btn btn-primary position-absolute bottom-0 start-0 w-100 rounded-0 py-2" data-action="click->native--permissions#biometricPrompt">
+    Check For Permissions
+  </button>
+</div>

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   scope :articles do
     get "env_switch" => "articles#env_switch"
     get "camera_access" => "articles#camera_access"
+    get "biometric_prompt" => "articles#biometric_prompt"
   end
 
   namespace :api, defaults: {format: :json} do
